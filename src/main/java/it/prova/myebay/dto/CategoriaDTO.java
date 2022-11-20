@@ -47,15 +47,9 @@ public class CategoriaDTO {
 		return new CategoriaDTO(categoriaModel.getId(), categoriaModel.getDescrizione(), categoriaModel.getCodice());
 	}
 
-	public static List<CategoriaDTO> createRuoloDTOListFromModelSet(Set<Categoria> modelListInput) {
-		return modelListInput.stream().map(categoriaEntity -> {
-			return CategoriaDTO.buildCategoriaDTOFromModel(categoriaEntity);
-		}).collect(Collectors.toList());
-	}
-
-	public static List<CategoriaDTO> createRuoloDTOListFromModelList(List<Categoria> modelListInput) {
-		return modelListInput.stream().map(categoriaEntity -> {
-			return CategoriaDTO.buildCategoriaDTOFromModel(categoriaEntity);
+	public static List<CategoriaDTO> createCategoriaDTOListFromModelList(List<Categoria> modelListInput) {
+		return modelListInput.stream().map(ruoloEntity -> {
+			return CategoriaDTO.buildCategoriaDTOFromModel(ruoloEntity);
 		}).collect(Collectors.toList());
 	}
 }

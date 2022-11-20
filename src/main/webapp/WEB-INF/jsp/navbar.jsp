@@ -1,5 +1,4 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <header>
   <!-- Fixed navbar -->
  <nav class="navbar navbar-expand-lg navbar-dark bg-primary" aria-label="Eighth navbar example">
@@ -19,20 +18,53 @@
           <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
           </li>
+          
+          <sec:authorize access="hasAnyRole('ADMIN','CLASSIC_USER')">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
+            
             <ul class="dropdown-menu" aria-labelledby="dropdown07">
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/home">Home</a></li>
+              
+              
+              <li>
+              <form action="${pageContext.request.contextPath}/acquisto/list" method="post">
+              <input type="hidden" name="utenteId" id="utenteId" value="${userInfo.id}">
+              <!-- 
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/acquisto/list">Acquisti Effettuati</a>
+               -->
+              <button type="submit" name="idAnnuncio" id="idAnnuncio" class="dropdown-item">Acquisti Effettuati</button>
+              </form>
+              </li>
+              
+              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/annuncio/insert">Inserisci Annuncio</a></li>
+              
+              
+              <li>
+              
+              <form action="${pageContext.request.contextPath}/annuncio/list" method="post">
+              <input type="hidden" name="utenteId" id="utenteId" value="${userInfo.id}">
+              <!-- 
+              <a class="dropdown-item" href="${pageContext.request.contextPath}/acquisto/list">Acquisti Effettuati</a>
+               -->
+              <button type="submit" name="idAnnuncio" id="idAnnuncio" class="dropdown-item">Gestione Annunci</button>
+              </form>
+              
+              </li>
             </ul> 
+           <!-- 
+           <form action="${pageContext.request.contextPath}/confermaAcquisto" method="post">
+					    		<input type="hidden" name="idAnnuncio" value="${show_annuncio_attr.id}">
+					    		<input type="hidden" name="utenteId" id="utenteId" value="${userInfo.id}">
+						    	<button type="submit" name="idAnnuncio" id="idAnnuncio" class="btn btn-primary">Conferma Acquisto</button>
+						        <a href="${pageContext.request.contextPath}/film/" class='btn btn-outline-secondary' style='width:80px'>
+						            <i class='fa fa-chevron-left'></i> Back
+						        </a>
+					</form>
+            -->
+           
           </li>
-          <sec:authorize access="hasRole('CLASSIC_USER')">
-		      <li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${userInfo.nome } ${userInfo.cognome }</a>
-		        <div class="dropdown-menu" aria-labelledby="dropdown01">
-		          <a class="dropdown-item" href="${pageContext.request.contextPath}/acquisto/myacquisti">Lista Acquisti</a>
-		        </div>	
-		      </li>
-		   </sec:authorize>
+          </sec:authorize>
+          
            <sec:authorize access="hasRole('ADMIN')">
 		      <li class="nav-item dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Utenze</a>
@@ -44,19 +76,26 @@
 		   </sec:authorize>
         </ul>
       </div>
-
-      <sec:authorize access="!isAuthenticated()">
-      <div class="col-md-3 text-end">
-		<a  class="btn btn-primary" href="login.jsp">Login</a>
-		</div>
-	</sec:authorize>
-	<sec:authorize access="isAuthenticated()">
-		<div class="col-md-3 text-end">
-	    	<p class="navbar-text">Utente: <sec:authentication property="name"/> (${userInfo.nome } ${userInfo.cognome })
-	    		<a href="${pageContext.request.contextPath}/logout">Logout</a>
-	    	</p>
-		</div>
+      <sec:authorize access="isAuthenticated()">
+	      <div class="col-md-3 text-end">
+	        <p class="navbar-text">Utente: <sec:authentication property="name"/> (${userInfo.nome } ${userInfo.cognome })
+	        <a href="${pageContext.request.contextPath}/logout">Logout</a>
+	    	 Credito residuo: ${userInfo.creditoResiduo }
+	    	 </p>
+			
+	      </div>
       </sec:authorize>
+      
+      <sec:authorize access="!isAuthenticated()">
+	      <div class="col-md-3 text-end">
+	        <p class="navbar-text">
+	        <a href="${pageContext.request.contextPath}/login">Login</a>
+	    	 
+	    	 </p>
+			
+	      </div>
+      </sec:authorize>
+      
     </div>
   </nav>
   

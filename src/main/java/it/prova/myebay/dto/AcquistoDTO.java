@@ -34,6 +34,16 @@ public class AcquistoDTO {
 		this.utenteAcquirente = utenteAcquirente;
 
 	}
+	
+	
+
+
+	public AcquistoDTO(String descrizione, Date data, Integer prezzo) {
+		super();
+		this.descrizione = descrizione;
+		this.data = data;
+		this.prezzo = prezzo;
+	}
 
 	public Long getId() {
 		return id;
@@ -74,13 +84,10 @@ public class AcquistoDTO {
 	public void setUtenteAcquirente(UtenteDTO utenteAcquirente) {
 		this.utenteAcquirente = utenteAcquirente;
 	}
+	public Acquisto buildAcquistoModel() {
+		Acquisto result = new Acquisto(this.id, this.descrizione, this.data, this.prezzo,
+				this.utenteAcquirente.buildUtenteModel(true));
 
-	public Acquisto buildAcquistoModel(boolean includeId) {
-		Acquisto result = new Acquisto(this.descrizione, this.data, this.prezzo,
-				this.utenteAcquirente.buildUtenteModel(false));
-		if (this.id != null && includeId) {
-			result.setId(this.id);
-		}
 		return result;
 	}
 

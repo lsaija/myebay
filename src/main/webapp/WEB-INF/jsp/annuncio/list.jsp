@@ -3,12 +3,12 @@
 <!doctype html>
 <html lang="it" class="h-100">
 <head>
-	<jsp:include page="../header.jsp" />
+	<jsp:include page="./header.jsp" />
 	<title>Pagina dei risultati</title>
 	
 </head>
 <body class="d-flex flex-column h-100">
-	<jsp:include page="../navbar.jsp" />
+	<jsp:include page="./navbar.jsp" />
 	
 	<!-- Begin page content -->
 	<main class="flex-shrink-0">
@@ -37,20 +37,20 @@
 			            <table class='table table-striped ' >
 			                <thead>
 			                    <tr>
-			                        <th>Descrizione prodotto</th>
+			                        <th>Testo</th>
 			                        <th>Prezzo</th>
-			                        <th>Data di acquisto</th>
-			                        
+			                        <th>Data di pubblicazione</th>
+			                        <th>Nome Utente Annuncio</th>
 			                        <th>Azioni</th>
 			                    </tr>
 			                </thead>
 			                <tbody>
-			                	<c:forEach items="${acquisto_list_attribute }" var="utenteItem">
+			                	<c:forEach items="${annuncio_list_attribute }" var="utenteItem">
 									<tr>
-										<td>${utenteItem.descrizione }</td>
+										<td>${utenteItem.testoAnnuncio }</td>
 										<td>${utenteItem.prezzo }</td>
 										<td>${utenteItem.data }</td>
-										
+										<td>${utenteItem.aperto }</td>
 										<td>
 											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/showAnnuncio/${utenteItem.id }">Visualizza</a>
 											
@@ -68,7 +68,7 @@
 		</div>	
 	<!-- end container -->	
 	</main>
-	<jsp:include page="../footer.jsp" />
+	<jsp:include page="./footer.jsp" />
 	
 	
 	

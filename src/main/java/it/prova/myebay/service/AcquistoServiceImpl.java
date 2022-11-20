@@ -29,7 +29,7 @@ public class AcquistoServiceImpl implements AcquistoService {
 
 	@Transactional
 	public void aggiorna(Acquisto acquisto) {
-		// TODO Auto-generated method stub
+		acquistoRepository.save(acquisto);
 	}
 
 	@Transactional
@@ -39,8 +39,8 @@ public class AcquistoServiceImpl implements AcquistoService {
 
 	@Transactional
 	public void rimuovi(Long idToDelete) {
-		// TODO Auto-generated method stub	
-	}
+		acquistoRepository.deleteById(idToDelete);
+    }
 
 	@Transactional(readOnly = true)
 	public List<Acquisto> findByExample(Acquisto example) {
