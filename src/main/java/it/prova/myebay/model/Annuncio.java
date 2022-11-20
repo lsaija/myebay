@@ -1,4 +1,5 @@
 package it.prova.myebay.model;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,7 +20,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "annuncio")
 public class Annuncio {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -32,11 +33,11 @@ public class Annuncio {
 	private Date data;
 	@Column(name = "aperto")
 	private Boolean aperto;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "utente_id", nullable = false)
 	private Utente utenteInserimento;
-	
+
 	@ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.LAZY)
 	@JoinTable(name = "annuncio_categoria", joinColumns = @JoinColumn(name = "annuncio_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "categoria_id", referencedColumnName = "ID"))
 	private Set<Categoria> categorie = new HashSet<>();
@@ -61,6 +62,17 @@ public class Annuncio {
 		this.aperto = aperto;
 		this.utenteInserimento = utenteInserimento;
 		this.categorie = categorie;
+	}
+
+	public Annuncio(Long id, String testoAnnuncio, Integer prezzo, Date data, Boolean aperto,
+			Utente utenteInserimento) {
+		super();
+		this.id = id;
+		this.testoAnnuncio = testoAnnuncio;
+		this.prezzo = prezzo;
+		this.data = data;
+		this.aperto = aperto;
+		this.utenteInserimento = utenteInserimento;
 	}
 
 	public Long getId() {

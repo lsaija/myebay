@@ -33,7 +33,7 @@ public class CategoriaServiceImpl implements CategoriaService{
 
 	@Transactional
 	public void inserisciNuovo(Categoria categoriaInstance) {
-		// TODO Auto-generated method stub
+		categoriaRepository.save(categoriaInstance);
 		
 	}
 

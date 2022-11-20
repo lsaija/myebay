@@ -46,5 +46,11 @@ public class AcquistoServiceImpl implements AcquistoService {
 	public List<Acquisto> findByExample(Acquisto example) {
 		return acquistoRepository.findByExample(example);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Acquisto> FindAllAcquistiById(Long id) {
+		return acquistoRepository.FindAllAcquistiById(id);
+	}
 
 }

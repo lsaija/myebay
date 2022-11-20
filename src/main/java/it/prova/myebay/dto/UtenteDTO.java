@@ -190,7 +190,7 @@ public class UtenteDTO {
 				);
 		result.setAnnunci(new HashSet<AnnuncioDTO>(utenteModel.getAnnunci()
 				.stream()
-				.map(annuncio -> AnnuncioDTO.buildAnnuncioDTOFromModel(annuncio))
+				.map(annuncio -> AnnuncioDTO.buildAnnuncioDTOFromModel(annuncio,true))
 				.collect(Collectors.toSet()))
 				);		
 		return result;

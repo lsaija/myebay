@@ -1,4 +1,5 @@
 package it.prova.myebay.model;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,7 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+@Entity
+@Table(name = "categoria")
 public class Categoria {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -33,6 +37,12 @@ public class Categoria {
 		this.id = id;
 		this.descrizione = descrizione;
 		this.codice = codice;
+	}
+	
+
+	public Categoria(Long id) {
+		super();
+		this.id = id;
 	}
 
 	public Long getId() {
@@ -66,5 +76,6 @@ public class Categoria {
 	public void setAnnunci(Set<Annuncio> annunci) {
 		this.annunci = annunci;
 	}
-
+	
+	
 }
