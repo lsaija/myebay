@@ -1,4 +1,5 @@
 package it.prova.myebay.model;
+
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,7 +15,6 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "acquisto")
 public class Acquisto {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -29,7 +29,11 @@ public class Acquisto {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "utente_id", nullable = false)
 	private Utente utenteAcquirente;
-
+	
+	public Acquisto() {
+		
+	}
+	
 	public Acquisto(String descrizione, Date data, Integer prezzo, Utente utenteAcquirente) {
 		this.descrizione = descrizione;
 		this.data = data;
@@ -91,5 +95,4 @@ public class Acquisto {
 	public void setUtenteAcquirente(Utente utenteAcquirente) {
 		this.utenteAcquirente = utenteAcquirente;
 	}
-
 }
