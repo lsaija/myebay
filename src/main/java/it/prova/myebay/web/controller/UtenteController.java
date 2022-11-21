@@ -1,7 +1,6 @@
 package it.prova.myebay.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +30,7 @@ public class UtenteController {
 
 	@Autowired
 	private UtenteService utenteService;
-	
+
 	@Autowired
 	private RuoloService ruoloService;
 
@@ -39,7 +38,7 @@ public class UtenteController {
 	public ModelAndView listAllUtenti() {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("utente_list_attribute",
-				UtenteDTO.createUtenteDTOListFromModelList(utenteService.listAllUtenti(), false));
+				UtenteDTO.createUtenteDTOListFromModelList(utenteService.listAll(), false));
 		mv.setViewName("utente/list");
 		return mv;
 	}
@@ -50,18 +49,26 @@ public class UtenteController {
 	}
 
 	@PostMapping("/list")
-	public String listUtenti(UtenteDTO utenteExample, ModelMap model) {
+	public String listUtenti(Utente utenteExample, ModelMap model) {
+
 		model.addAttribute("utente_list_attribute",
-				UtenteDTO.createUtenteDTOListFromModelList(utenteService.findByExample(utenteExample.buildUtenteModel(false)), false));
+				UtenteDTO.createUtenteDTOListFromModelList(utenteService.findByExample(utenteExample), false));
 		return "utente/list";
 	}
-	
+
+	@PostMapping("/cambiaStato")
+	public String cambiaStato(@RequestParam(name = "idUtenteForChangingStato", required = true) Long idUtente) {
+		utenteService.changeUserAbilitation(idUtente);
+		return "redirect:/utente";
+	}
+
 	@GetMapping("/show/{idUtente}")
 	public String showUtente(@PathVariable(required = true) Long idUtente, Model model) {
 		Utente utenteModel = utenteService.caricaSingoloUtenteConRuoli(idUtente);
-		UtenteDTO result = UtenteDTO.buildUtenteDTOFromModel(utenteModel,true);
+		UtenteDTO result = UtenteDTO.buildUtenteDTOFromModel(utenteModel, true);
 		model.addAttribute("show_utente_attr", result);
-		model.addAttribute("ruoli_utente_attr", RuoloDTO.createRuoloDTOListFromModelList(ruoloService.cercaRuoliByIds(result.getRuoliIds())));
+		model.addAttribute("ruoli_utente_attr",
+				RuoloDTO.createRuoloDTOListFromModelList(ruoloService.cercaRuoliByIds(result.getRuoliIds())));
 		return "utente/show";
 	}
 
@@ -94,7 +101,7 @@ public class UtenteController {
 	@GetMapping("/edit/{idUtente}")
 	public String edit(@PathVariable(required = true) Long idUtente, Model model) {
 		Utente utenteModel = utenteService.caricaSingoloUtenteConRuoli(idUtente);
-		model.addAttribute("edit_utente_attr", UtenteDTO.buildUtenteDTOFromModel(utenteModel,true));
+		model.addAttribute("edit_utente_attr", UtenteDTO.buildUtenteDTOFromModel(utenteModel, true));
 		model.addAttribute("ruoli_totali_attr", RuoloDTO.createRuoloDTOListFromModelList(ruoloService.listAll()));
 		return "utente/edit";
 	}
@@ -110,12 +117,6 @@ public class UtenteController {
 		utenteService.aggiorna(utenteDTO.buildUtenteModel(true));
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
-		return "redirect:/utente";
-	}
-
-	@PostMapping("/cambiaStato")
-	public String cambiaStato(@RequestParam(name = "idUtenteForChangingStato", required = true) Long idUtente) {
-		utenteService.changeUserAbilitation(idUtente);
 		return "redirect:/utente";
 	}
 

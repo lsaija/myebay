@@ -18,53 +18,15 @@
           <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
           </li>
-          
-          <sec:authorize access="hasAnyRole('ADMIN','CLASSIC_USER')">
+          <sec:authorize access="isAuthenticated()">
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
-            
             <ul class="dropdown-menu" aria-labelledby="dropdown07">
-              
-              
-              <li>
-              <form action="${pageContext.request.contextPath}/acquisto/list" method="post">
-              <input type="hidden" name="utenteId" id="utenteId" value="${userInfo.id}">
-              <!-- 
-              <a class="dropdown-item" href="${pageContext.request.contextPath}/acquisto/list">Acquisti Effettuati</a>
-               -->
-              <button type="submit" name="idAnnuncio" id="idAnnuncio" class="dropdown-item">Acquisti Effettuati</button>
-              </form>
-              </li>
-              
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/annuncio/insert">Inserisci Annuncio</a></li>
-              
-              
-              <li>
-              
-              <form action="${pageContext.request.contextPath}/annuncio/list" method="post">
-              <input type="hidden" name="utenteId" id="utenteId" value="${userInfo.id}">
-              <!-- 
-              <a class="dropdown-item" href="${pageContext.request.contextPath}/acquisto/list">Acquisti Effettuati</a>
-               -->
-              <button type="submit" name="idAnnuncio" id="idAnnuncio" class="dropdown-item">Gestione Annunci</button>
-              </form>
-              
-              </li>
+              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/annuncio/search">Gestione annunci</a></li>
+            		<li><a class="dropdown-item" href="${pageContext.request.contextPath}/acquisto/search">Acquisti effettuati</a></li>
             </ul> 
-           <!-- 
-           <form action="${pageContext.request.contextPath}/confermaAcquisto" method="post">
-					    		<input type="hidden" name="idAnnuncio" value="${show_annuncio_attr.id}">
-					    		<input type="hidden" name="utenteId" id="utenteId" value="${userInfo.id}">
-						    	<button type="submit" name="idAnnuncio" id="idAnnuncio" class="btn btn-primary">Conferma Acquisto</button>
-						        <a href="${pageContext.request.contextPath}/film/" class='btn btn-outline-secondary' style='width:80px'>
-						            <i class='fa fa-chevron-left'></i> Back
-						        </a>
-					</form>
-            -->
-           
           </li>
           </sec:authorize>
-          
            <sec:authorize access="hasRole('ADMIN')">
 		      <li class="nav-item dropdown">
 		        <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestione Utenze</a>
@@ -79,23 +41,15 @@
       <sec:authorize access="isAuthenticated()">
 	      <div class="col-md-3 text-end">
 	        <p class="navbar-text">Utente: <sec:authentication property="name"/> (${userInfo.nome } ${userInfo.cognome })
-	        <a href="${pageContext.request.contextPath}/logout">Logout</a>
-	    	 Credito residuo: ${userInfo.creditoResiduo }
-	    	 </p>
-			
+	    	 <a href="${pageContext.request.contextPath}/logout">Logout</a></p>
 	      </div>
       </sec:authorize>
       
       <sec:authorize access="!isAuthenticated()">
-	      <div class="col-md-3 text-end">
-	        <p class="navbar-text">
-	        <a href="${pageContext.request.contextPath}/login">Login</a>
-	    	 
-	    	 </p>
-			
+	      <div class="col-sm-1 text-end">
+	        <p class="navbar-text"><a href="${pageContext.request.contextPath}/login">Login</a></p>
 	      </div>
       </sec:authorize>
-      
     </div>
   </nav>
   

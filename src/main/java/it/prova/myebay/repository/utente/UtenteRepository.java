@@ -8,7 +8,9 @@ import org.springframework.data.repository.CrudRepository;
 
 import it.prova.myebay.model.StatoUtente;
 import it.prova.myebay.model.Utente;
-public interface UtenteRepository extends CrudRepository<Utente, Long>,CustomUtenteRepository{
+
+public interface UtenteRepository extends CrudRepository<Utente, Long>, CustomUtenteRepository{
+	
 	@EntityGraph(attributePaths = { "ruoli" })
 	Optional<Utente> findByUsername(String username);
 	
@@ -16,9 +18,7 @@ public interface UtenteRepository extends CrudRepository<Utente, Long>,CustomUte
 	Optional<Utente> findByIdConRuoli(Long id);
 	
 	Utente findByUsernameAndPassword(String username, String password);
-	
-	
+
 	@EntityGraph(attributePaths = { "ruoli" })
 	Utente findByUsernameAndPasswordAndStato(String username,String password, StatoUtente stato);
-
 }

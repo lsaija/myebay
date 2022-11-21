@@ -5,49 +5,43 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.model.Categoria;
-import it.prova.myebay.model.Ruolo;
-import it.prova.myebay.validation.ValidationNoPassword;
-import it.prova.myebay.validation.ValidationWithPassword;
 
 public class AnnuncioDTO {
 
-	
 	private Long id;
-	
-	@NotBlank(message = "{nome.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class })
+
+	@NotBlank(message = "{testoannuncio.notblank}")
+	@Size(min = 3, max = 100, message = "Il valore inserito '${validatedValue}' deve essere lungo tra {min} e {max} caratteri")
 	private String testoAnnuncio;
-	
-	@NotNull(message = "{film.minutiDurata.notnull}")
-	@Min(1)
+	@NotNull(message = "{prezzo.notnull}")
 	private Integer prezzo;
-	
+
 	private Date data;
-	
+
 	private Boolean aperto;
-	
-	private UtenteDTO utenteInserimento;
-	
+
+	private UtenteDTO utente;
+
 	private Long[] categorieIds;
-	
+
 	public AnnuncioDTO() {
-		
+		super();
 	}
 
-	public AnnuncioDTO(Long id, String testoAnnuncio, Integer prezzo, Date data, Boolean aperto,
-			UtenteDTO utenteInserimento) {
+	public AnnuncioDTO(Long id, String testoAnnuncio, Integer prezzo, Date data, Boolean aperto, UtenteDTO utente) {
 		super();
 		this.id = id;
 		this.testoAnnuncio = testoAnnuncio;
 		this.prezzo = prezzo;
 		this.data = data;
 		this.aperto = aperto;
-		this.utenteInserimento = utenteInserimento;
+		this.utente = utente;
 	}
 
 	public AnnuncioDTO(Long id, String testoAnnuncio, Integer prezzo, Date data, Boolean aperto) {
@@ -99,16 +93,14 @@ public class AnnuncioDTO {
 		this.aperto = aperto;
 	}
 
-	public UtenteDTO getUtenteInserimento() {
-		return utenteInserimento;
+	public UtenteDTO getUtente() {
+		return utente;
 	}
 
-	public void setUtenteInserimento(UtenteDTO utenteInserimento) {
-		this.utenteInserimento = utenteInserimento;
+	public void setUtente(UtenteDTO utente) {
+		this.utente = utente;
 	}
-	
-	
-	
+
 	public Long[] getCategorieIds() {
 		return categorieIds;
 	}
@@ -119,28 +111,35 @@ public class AnnuncioDTO {
 
 	public Annuncio buildAnnuncioModel(boolean includeIdCategorie) {
 		Annuncio result = new Annuncio(this.id, this.testoAnnuncio, this.prezzo, this.data, this.aperto,
-				this.utenteInserimento.buildUtenteModel(true));
+				this.utente.buildUtenteModel(false));
+
 		if (includeIdCategorie && categorieIds != null)
-			result.setCategorie(Arrays.asList(categorieIds).stream().map(id -> new Categoria(id)).collect(Collectors.toSet()));
+			result.setCategorie(
+					Arrays.asList(categorieIds).stream().map(id -> new Categoria(id)).collect(Collectors.toSet()));
 
 		return result;
 	}
 
-	public static AnnuncioDTO buildAnnuncioDTOFromModel(Annuncio annuncioModel, boolean includeUtenti) {
-		AnnuncioDTO result = new AnnuncioDTO(annuncioModel.getId(), annuncioModel.getTestoAnnuncio(), annuncioModel.getPrezzo(),
-				annuncioModel.getData(), annuncioModel.getAperto());
+	public static AnnuncioDTO buildAnnuncioDTOFromModel(Annuncio annuncioModel, boolean includeUtente,
+			boolean includeCategorie) {
+		AnnuncioDTO result = new AnnuncioDTO(annuncioModel.getId(), annuncioModel.getTestoAnnuncio(),
+				annuncioModel.getPrezzo(), annuncioModel.getData(), annuncioModel.getAperto());
 
-		if (includeUtenti)
-			result.setUtenteInserimento(UtenteDTO.buildUtenteDTOFromModel(annuncioModel.getUtenteInserimento(), true));
-			
+		if (includeUtente)
+			result.setUtente(UtenteDTO.buildUtenteDTOFromModel(annuncioModel.getUtente(), false));
+
+		if (annuncioModel.getCategorie() != null && includeCategorie && !annuncioModel.getCategorie().isEmpty())
+			result.categorieIds = annuncioModel.getCategorie().stream().map(r -> r.getId()).collect(Collectors.toList())
+					.toArray(new Long[] {});
 
 		return result;
 	}
 
-	public static List<AnnuncioDTO> createAnnuncioDTOListFromModelList(List<Annuncio> modelListInput, boolean includeUtenti) {
+	public static List<AnnuncioDTO> createAnnuncioDTOFromModelList(List<Annuncio> modelListInput, boolean includeUtente,
+			boolean includeCategorie) {
 		return modelListInput.stream().map(annuncioEntity -> {
-			return AnnuncioDTO.buildAnnuncioDTOFromModel(annuncioEntity, includeUtenti);
+			return AnnuncioDTO.buildAnnuncioDTOFromModel(annuncioEntity, includeUtente, includeCategorie);
 		}).collect(Collectors.toList());
 	}
-	
+
 }

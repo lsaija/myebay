@@ -1,5 +1,4 @@
 
-
 package it.prova.myebay.service;
 
 import java.util.List;
@@ -13,44 +12,51 @@ import it.prova.myebay.repository.acquisto.AcquistoRepository;
 
 @Service
 public class AcquistoServiceImpl implements AcquistoService {
-	
+
 	@Autowired
-	private AcquistoRepository acquistoRepository;
-	
-	@Transactional(readOnly = true)
-	public List<Acquisto> listAllAcquisto() {
-		return  (List<Acquisto>) acquistoRepository.findAll();
-	}
+	private AcquistoRepository repository;
 
-	@Transactional(readOnly = true)
-	public Acquisto caricaSingoloAcquisto(Long id) {
-		return acquistoRepository.findById(id).orElse(null);
-	}
-
-	@Transactional
-	public void aggiorna(Acquisto acquisto) {
-		acquistoRepository.save(acquisto);
-	}
-
-	@Transactional
-	public void inserisciNuovo(Acquisto acquisto) {
-		acquistoRepository.save(null);		
-	}
-
-	@Transactional
-	public void rimuovi(Long idToDelete) {
-		acquistoRepository.deleteById(idToDelete);
-    }
-
-	@Transactional(readOnly = true)
-	public List<Acquisto> findByExample(Acquisto example) {
-		return acquistoRepository.findByExample(example);
-	}
-	
 	@Override
 	@Transactional(readOnly = true)
-	public List<Acquisto> FindAllAcquistiById(Long id) {
-		return acquistoRepository.FindAllAcquistiById(id);
+	public List<Acquisto> listAll() {
+		return (List<Acquisto>) repository.findAll();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Acquisto caricaSingoloElemento(Long id) {
+		return repository.findById(id).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public void aggiorna(Acquisto acquistoInstance) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	@Transactional
+	public void inserisciNuovo(Acquisto acquistoInstance) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	@Transactional
+	public void rimuovi(Long idToDelete) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public List<Acquisto> findByExample(Acquisto example) {
+		return repository.findByExample(example);
+	}
+
+	@Override
+	public List<Acquisto> findAllAcquistiEagerUtente(Long id) {
+		return repository.findAcquistiUtente(id);
 	}
 
 }

@@ -18,34 +18,32 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
-	@RequestMapping(value = "/login", method = {RequestMethod.POST,RequestMethod.GET})
-	public String loginPage(@RequestParam(value = "error", required = false) String error,
-			Model model, HttpServletRequest request) {
+	@RequestMapping(value = "/login", method = { RequestMethod.POST, RequestMethod.GET })
+	public String loginPage(@RequestParam(value = "error", required = false) String error, Model model,
+			HttpServletRequest request) {
 		if (error != null) {
-			model.addAttribute("errorMessage", 
-                     getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
+			model.addAttribute("errorMessage", getErrorMessage(request, "SPRING_SECURITY_LAST_EXCEPTION"));
 		}
 		return "login";
 	}
-	
-    private String getErrorMessage(HttpServletRequest request, String key){
-    
-        Exception exception = 
-                   (Exception) request.getSession().getAttribute(key);
-        
-        String error = "";
-        if (exception instanceof BadCredentialsException) {
-            error = "Invalid username and password!";
-        }else if(exception instanceof LockedException) {
-            error = "Attenzione! Account disabilitato";
-        }else if(exception instanceof DisabledException) {
-            error = "Attenzione! Account non abilitato";
-        }else{
-            error = "Invalid username and password!";
-        }
-        
-        return error;
-    }
+
+	private String getErrorMessage(HttpServletRequest request, String key) {
+
+		Exception exception = (Exception) request.getSession().getAttribute(key);
+
+		String error = "";
+		if (exception instanceof BadCredentialsException) {
+			error = "Invalid username and password!";
+		} else if (exception instanceof LockedException) {
+			error = "Attenzione! Account disabilitato";
+		} else if (exception instanceof DisabledException) {
+			error = "Attenzione! Account non abilitato";
+		} else {
+			error = "Invalid username and password!";
+		}
+
+		return error;
+	}
 
 	@RequestMapping(value = "/executeLogout", method = RequestMethod.GET)
 	public String logoutPage(Model model, HttpServletRequest request, HttpServletResponse response) {
@@ -56,10 +54,11 @@ public class LoginController {
 		model.addAttribute("infoMessage", "You have been successfully logged out !!");
 		return "login";
 	}
-	
-	@RequestMapping(value = "/accessDenied", method = {RequestMethod.POST,RequestMethod.GET})
+
+	@RequestMapping(value = "/accessDenied", method = { RequestMethod.POST, RequestMethod.GET })
 	public String accessDenied(Model model) {
-		model.addAttribute("errorMessage", "Attenzione! Non si dispone delle autorizzazioni per accedere alla funzionalità richiesta.");
+		model.addAttribute("errorMessage",
+				"Attenzione! Non si dispone delle autorizzazioni per accedere alla funzionalità richiesta.");
 		return "index";
 	}
 

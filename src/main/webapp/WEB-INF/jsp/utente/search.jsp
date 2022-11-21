@@ -21,9 +21,9 @@
 			    <span aria-hidden="true">&times;</span>
 			  </button>
 			</div>
-						
+			
 			<div class='card'>
-			    <div class='card-header'>
+			    <div class='card-header' style="background-color:GreenYellow">
 			        <h5>Ricerca elementi</h5> 
 			    </div>
 			    <div class='card-body'>
@@ -48,6 +48,11 @@
 								<label for="dateCreated" class="form-label">Data di Creazione</label>
                         		<input class="form-control" id="dateCreated" type="date" placeholder="dd/MM/yy"
                             		title="formato : gg/mm/aaaa"  name="dateCreated" >
+							</div>
+							
+							<div class="col-md-6">
+								<label for="creditoResiduo" class="form-label">Credito Residuo</label>
+								<input type="number" class="form-control" name="creditoResiduo" id="creditoResiduo" placeholder="A partire da..." >
 							</div>
 							
 							<div class="col-md-3">

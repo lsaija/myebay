@@ -1,4 +1,5 @@
 package it.prova.myebay.dto;
+
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -9,6 +10,8 @@ import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import it.prova.myebay.model.Acquisto;
+import it.prova.myebay.model.Annuncio;
 import it.prova.myebay.model.Ruolo;
 import it.prova.myebay.model.StatoUtente;
 import it.prova.myebay.model.Utente;
@@ -16,7 +19,7 @@ import it.prova.myebay.validation.ValidationNoPassword;
 import it.prova.myebay.validation.ValidationWithPassword;
 
 public class UtenteDTO {
-	
+
 	private Long id;
 
 	@NotBlank(message = "{username.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class })
@@ -35,21 +38,31 @@ public class UtenteDTO {
 	@NotBlank(message = "{cognome.notblank}", groups = { ValidationWithPassword.class, ValidationNoPassword.class })
 	private String cognome;
 
-	private Integer creditoResiduo;
-
 	private Date dateCreated;
 
+	private Integer creditoResiduo;
+
 	private StatoUtente stato;
-	
-	private Set<AnnuncioDTO> annunci = new HashSet<>();
-	
-	private Set<AcquistoDTO> acquisti = new HashSet<>();
 
 	private Long[] ruoliIds;
+
+	private Set<Annuncio> annunci = new HashSet<>();
+
+	private Set<Acquisto> acquisti = new HashSet<>();
 
 	public UtenteDTO() {
 	}
 
+	public UtenteDTO(Long id, String username, String nome, String cognome, StatoUtente stato, Integer creditoResiduo) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.stato = stato;
+		this.creditoResiduo = creditoResiduo;
+	}
+	
 	public UtenteDTO(Long id, String username, String nome, String cognome, StatoUtente stato) {
 		super();
 		this.id = id;
@@ -107,36 +120,12 @@ public class UtenteDTO {
 		this.dateCreated = dateCreated;
 	}
 
-	public Integer getCreditoResiduo() {
-		return creditoResiduo;
-	}
-
-	public void setCreditoResiduo(Integer creditoResiduo) {
-		this.creditoResiduo = creditoResiduo;
-	}
-
 	public StatoUtente getStato() {
 		return stato;
 	}
 
 	public void setStato(StatoUtente stato) {
 		this.stato = stato;
-	}
-
-	public Set<AnnuncioDTO> getAnnunci() {
-		return annunci;
-	}
-
-	public void setAnnunci(Set<AnnuncioDTO> annunci) {
-		this.annunci = annunci;
-	}
-
-	public Set<AcquistoDTO> getAcquisti() {
-		return acquisti;
-	}
-
-	public void setAcquisti(Set<AcquistoDTO> acquisti) {
-		this.acquisti = acquisti;
 	}
 
 	public String getConfermaPassword() {
@@ -155,6 +144,30 @@ public class UtenteDTO {
 		this.ruoliIds = ruoliIds;
 	}
 
+	public Set<Acquisto> getAcquisti() {
+		return acquisti;
+	}
+
+	public void setAcquisti(Set<Acquisto> acquisti) {
+		this.acquisti = acquisti;
+	}
+
+	public Set<Annuncio> getAnnunci() {
+		return annunci;
+	}
+
+	public void setAnnunci(Set<Annuncio> annunci) {
+		this.annunci = annunci;
+	}
+
+	public Integer getCreditoResiduo() {
+		return creditoResiduo;
+	}
+
+	public void setCreditoResiduo(Integer creditoResiduo) {
+		this.creditoResiduo = creditoResiduo;
+	}
+
 	public boolean isAttivo() {
 		return this.stato != null && this.stato.equals(StatoUtente.ATTIVO);
 	}
@@ -162,14 +175,21 @@ public class UtenteDTO {
 	public Utente buildUtenteModel(boolean includeIdRoles) {
 		Utente result = new Utente(this.id, this.username, this.password, this.nome, this.cognome, this.dateCreated,
 				this.creditoResiduo, this.stato);
+		
 		if (includeIdRoles && ruoliIds != null)
 			result.setRuoli(Arrays.asList(ruoliIds).stream().map(id -> new Ruolo(id)).collect(Collectors.toSet()));
-
+		
+		if(this.annunci.size() > 0)
+			result.setAnnunci(annunci);
+		
+		if(this.acquisti.size() > 0)
+			result.setAcquisti(acquisti);
+		
 		return result;
 	}
 
-
-	public static UtenteDTO buildUtenteDTOFromModelTemp(Utente utenteModel, boolean includeRoles) {
+	// utente incompleto
+	public static UtenteDTO buildUtenteDTOFromModel(Utente utenteModel, boolean includeRoles) {
 		UtenteDTO result = new UtenteDTO(utenteModel.getId(), utenteModel.getUsername(), utenteModel.getNome(),
 				utenteModel.getCognome(), utenteModel.getStato());
 
@@ -179,31 +199,11 @@ public class UtenteDTO {
 
 		return result;
 	}
-	
-	public static UtenteDTO buildUtenteDTOFromModel(Utente utenteModel, boolean includeRoles) {
-		UtenteDTO result = UtenteDTO.buildUtenteDTOFromModelTemp(utenteModel, includeRoles);
-		result.setCreditoResiduo(utenteModel.getCreditoResiduo());
-		result.setAcquisti(new HashSet<AcquistoDTO>(utenteModel.getAcquisti()
-				.stream()
-				.map(acquisto -> AcquistoDTO.buildAcquistoDTOFromModel(acquisto))
-				.collect(Collectors.toSet())) 
-				);
-		result.setAnnunci(new HashSet<AnnuncioDTO>(utenteModel.getAnnunci()
-				.stream()
-				.map(annuncio -> AnnuncioDTO.buildAnnuncioDTOFromModel(annuncio,true))
-				.collect(Collectors.toSet()))
-				);		
-		return result;
-		
-		
-	}
 
 	public static List<UtenteDTO> createUtenteDTOListFromModelList(List<Utente> modelListInput, boolean includeRoles) {
 		return modelListInput.stream().map(utenteEntity -> {
 			return UtenteDTO.buildUtenteDTOFromModel(utenteEntity, includeRoles);
 		}).collect(Collectors.toList());
 	}
-
-
 
 }

@@ -1,3 +1,4 @@
+
 package it.prova.myebay.repository.acquisto;
 
 import java.util.List;
@@ -7,8 +8,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import it.prova.myebay.model.Acquisto;
 
-public interface AcquistoRepository extends CrudRepository<Acquisto, Long>, CustomAcquistoRepository{
+public interface AcquistoRepository extends CrudRepository<Acquisto, Long>, CustomAcquistoRepository {
 
-	@Query("from Acquisto a left join fetch  a.utenteAcquirente au where au.id = ?1")
-	List<Acquisto> FindAllAcquistiById(Long id);
+	@Query("from Acquisto a join a.utente u where u.id = ?1")
+	public List<Acquisto> findAcquistiUtente(Long id);
 }

@@ -1,4 +1,5 @@
 package it.prova.myebay.model;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,10 +18,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
 @Entity
 @Table(name = "utente")
 public class Utente {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -36,16 +38,17 @@ public class Utente {
 	@Column(name = "dateCreated")
 	private Date dateCreated;
 	@Column(name = "creditoResiduo")
-	private Integer creditoResiduo = 0;
+	private Integer creditoResiduo;
 
+	
 	@Enumerated(EnumType.STRING)
 	private StatoUtente stato;
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "utenteInserimento")
-	private Set<Annuncio> annunci = new HashSet<>();
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "utenteAcquirente")
-	private Set<Acquisto> acquisti = new HashSet<>();
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "utente")
+	private Set<Annuncio> annunci = new HashSet<Annuncio>(0);
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "utente")
+	private Set<Acquisto> acquisti = new HashSet<Acquisto>(0);
 
 	@ManyToMany
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
@@ -55,30 +58,9 @@ public class Utente {
 	}
 
 	public Utente(String username, String password) {
+		super();
 		this.username = username;
 		this.password = password;
-	}
-
-	public Utente(String username, String password, String nome, String cognome, Date dateCreated,
-			Integer creditoResiduo) {
-		this.username = username;
-		this.password = password;
-		this.nome = nome;
-		this.cognome = cognome;
-		this.dateCreated = dateCreated;
-		this.creditoResiduo = creditoResiduo;
-	}
-
-	public Utente(Long id, String username, String password, String nome, String cognome, Date dateCreated,
-			Integer creditoResiduo, StatoUtente stato) {
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.nome = nome;
-		this.cognome = cognome;
-		this.dateCreated = dateCreated;
-		this.creditoResiduo = creditoResiduo;
-		this.stato = stato;
 	}
 
 	public Utente(String username, String password, String nome, String cognome, Date dateCreated) {
@@ -87,6 +69,30 @@ public class Utente {
 		this.nome = nome;
 		this.cognome = cognome;
 		this.dateCreated = dateCreated;
+	}
+
+	public Utente(Long id, String username, String password, String nome, String cognome, Date dateCreated,
+			StatoUtente stato) {
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.dateCreated = dateCreated;
+		this.stato = stato;
+	}
+	
+	public Utente(Long id, String username, String password, String nome, String cognome, Date dateCreated,
+			Integer creditoResiduo, StatoUtente stato) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.password = password;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.dateCreated = dateCreated;
+		this.creditoResiduo = creditoResiduo;
+		this.stato = stato;
 	}
 
 	public Long getId() {
@@ -152,7 +158,7 @@ public class Utente {
 	public void setStato(StatoUtente stato) {
 		this.stato = stato;
 	}
-
+	
 	public Integer getCreditoResiduo() {
 		return creditoResiduo;
 	}
@@ -160,7 +166,7 @@ public class Utente {
 	public void setCreditoResiduo(Integer creditoResiduo) {
 		this.creditoResiduo = creditoResiduo;
 	}
-
+	
 	public Set<Annuncio> getAnnunci() {
 		return annunci;
 	}
@@ -168,7 +174,7 @@ public class Utente {
 	public void setAnnunci(Set<Annuncio> annunci) {
 		this.annunci = annunci;
 	}
-
+	
 	public Set<Acquisto> getAcquisti() {
 		return acquisti;
 	}

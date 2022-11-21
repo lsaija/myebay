@@ -38,7 +38,7 @@
 					</div>
 			  
 			  <div class='card'>
-				    <div class='card-header'>
+				    <div class='card-header' style="background-color:GreenYellow">
 				        <h5>Inserisci nuovo elemento</h5> 
 				    </div>
 				    <div class='card-body'>

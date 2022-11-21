@@ -24,7 +24,7 @@
 			<main class="flex-shrink-0">
 			  <div class="container">
 			  
-			  		
+			  		<%-- se l'attributo in request ha errori --%>
 					<spring:hasBindErrors  name="edit_utente_attr">
 						<%-- alert errori --%>
 						<div class="alert alert-danger " role="alert">
@@ -38,8 +38,8 @@
 					</div>
 			  
 			  <div class='card'>
-				    <div class='card-header'>
-				        <h5>Aggiorna elemento</h5> 
+				    <div class='card-header' style="background-color:GreenYellow">
+				        <h5>Inserisci nuovo elemento</h5> 
 				    </div>
 				    <div class='card-body'>
 		
@@ -73,7 +73,8 @@
 								</div>
 								 
 								
-	
+								<%--  checkbox ruoli 	--%>
+								<%-- facendolo con i tag di spring purtroppo viene un po' spaginato quindi aggiungo class 'a mano'	--%>
 								<div class="col-md-6 form-check" id="ruoliDivId">
 									<p>Ruoli:</p>
 									<form:checkboxes itemValue="id" itemLabel="codice"  element="div class='form-check'" items="${ruoli_totali_attr}" path="ruoliIds" />
@@ -90,7 +91,7 @@
 										
 									});
 								</script>
-							
+								<%-- fine checkbox ruoli 	--%>
 								
 								
 								<div class="col-12">
