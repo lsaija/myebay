@@ -18,7 +18,10 @@
 		 
 			<form class="form-signin" name='login' action="login" method='POST' novalidate="novalidate">
 	
-		   	
+		   	     <div class="alert alert-success alert-dismissible fade show ${successMessage==null?'d-none':'' }" role="alert">
+					 ${successMessage}
+					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
+				</div>
 			   	<div class="alert alert-danger alert-dismissible fade show ${errorMessage==null?'d-none': ''}" role="alert">
 				  ${errorMessage}
 				</div>
@@ -57,9 +60,14 @@
 			      <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/home">Home</a>
 			      
 			      <div>
+			      
+			      
+      
 			    <div class="w-50 p-3" style="background-color: #;"></div>
 			   
 			  </div>
+			   <a href="${pageContext.request.contextPath}/utente/registrazione" class="text-danger icon-link">Registrati subito </a>
+	   
 			  <div>
 			    <div class="w-50 p-3" style="background-color: #;"></div>
 			   
