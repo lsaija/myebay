@@ -22,7 +22,7 @@
 			  
 			  		<div class='card'>
 					    <div class='card-header' style="background-color:GreenYellow">
-					        <h5>Visualizza dettaglio</h5>
+					        <h5>Visualizza dettagli gestione Annuncio</h5>
 					    </div>
 					    
 					

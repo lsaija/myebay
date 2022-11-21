@@ -26,7 +26,7 @@
 			
 			<div class='card'>
 			    <div class='card-header' style="background-color:GreenYellow">
-			        <h5>Lista dei risultati</h5> 
+			        <h5>Lista degli Annunci</h5> 
 			    </div>
 			    <div class='card-body'>
 			    	<a href="${pageContext.request.contextPath}/home" class='btn btn-outline-secondary' >

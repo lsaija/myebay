@@ -26,7 +26,7 @@
 			
 			<div class='card'>
 			    <div class='card-header' style="background-color:GreenYellow">
-			        <h5>Ricerca elementi</h5> 
+			        <h5>Ricerca Annunci</h5> 
 			    </div>
 			    <div class='card-body'>
 	

@@ -39,7 +39,7 @@
 			  
 			  <div class='card'>
 				    <div class='card-header' style="background-color:GreenYellow">
-				        <h5>Modifica elemento</h5> 
+				        <h5>Modifica Annuncio</h5> 
 				    </div>
 				    <div class='card-body'>
 		

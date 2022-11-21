@@ -4,7 +4,7 @@
 <html lang="it" class="h-100">
 <head>
 	<jsp:include page="../header.jsp" />
-	<title>Pagina dei risultati</title>
+	<title>Lista Utenti</title>
 	
 </head>
 <body class="d-flex flex-column h-100">
@@ -25,7 +25,7 @@
 			
 			<div class='card'>
 			    <div class='card-header' style="background-color:GreenYellow">
-			        <h5>Lista dei risultati</h5> 
+			        <h5>Lista degli Utenti</h5> 
 			    </div>
 			    <div class='card-body'>
 			    	<a class="btn btn-primary " href="${pageContext.request.contextPath}/utente/insert">Add New</a>

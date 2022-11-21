@@ -137,9 +137,8 @@ public class UtenteController {
 			result.rejectValue("confermaPassword", "password.diverse");
 		Utente utenteCreato=utenteDTO.buildUtenteModel(true);
 		utenteCreato.setStato(StatoUtente.CREATO);
+		utenteCreato.getRuoli().add(ruoloService.cercaPerDescrizioneECodice("Classic User", "ROLE_CLASSIC_USER"));
 		utenteService.inserisciNuovo(utenteCreato);
-		
-
 		redirectAttrs.addFlashAttribute("successMessage", "Registrazione completata, in attesa di attivazione...");
 		return "redirect:/login";
 	}

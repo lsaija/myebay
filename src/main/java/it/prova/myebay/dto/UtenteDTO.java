@@ -71,6 +71,17 @@ public class UtenteDTO {
 		this.cognome = cognome;
 		this.stato = stato;
 	}
+	
+	public UtenteDTO(Long id, String username, String nome, String cognome, StatoUtente stato,Date dateCreated) {
+		super();
+		this.id = id;
+		this.username = username;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.stato = stato;
+		this.dateCreated=dateCreated;
+	}
+
 
 	public Long getId() {
 		return id;
@@ -191,7 +202,7 @@ public class UtenteDTO {
 	// utente incompleto
 	public static UtenteDTO buildUtenteDTOFromModel(Utente utenteModel, boolean includeRoles) {
 		UtenteDTO result = new UtenteDTO(utenteModel.getId(), utenteModel.getUsername(), utenteModel.getNome(),
-				utenteModel.getCognome(), utenteModel.getStato());
+				utenteModel.getCognome(), utenteModel.getStato(),utenteModel.getDateCreated());
 
 		if (includeRoles && !utenteModel.getRuoli().isEmpty())
 			result.ruoliIds = utenteModel.getRuoli().stream().map(r -> r.getId()).collect(Collectors.toList())

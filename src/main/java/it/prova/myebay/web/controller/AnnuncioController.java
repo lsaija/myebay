@@ -23,14 +23,19 @@ import it.prova.myebay.dto.CategoriaDTO;
 import it.prova.myebay.dto.UtenteDTO;
 import it.prova.myebay.exception.CreditoInsufficienteException;
 import it.prova.myebay.model.Annuncio;
+import it.prova.myebay.model.Utente;
 import it.prova.myebay.service.AcquistoService;
 import it.prova.myebay.service.AnnuncioService;
 import it.prova.myebay.service.CategoriaService;
+import it.prova.myebay.service.UtenteService;
 
 @Controller
 @RequestMapping(value = "/annuncio")
 public class AnnuncioController {
 
+	@Autowired
+	private UtenteService utenteService;
+	
 	@Autowired
 	private AnnuncioService annuncioService;
 
@@ -197,6 +202,10 @@ public class AnnuncioController {
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		model.addAttribute("acquisti_list_attribute", AcquistoDTO.createAcquistoDTOFromModelList(
 				acquistoService.findAllAcquistiEagerUtente(utenteInSessione.getId()), true));
+		Utente utenteInstance=utenteService.caricaSingoloElemento(utenteInSessione.getId());
+		UtenteDTO utenteParziale=new UtenteDTO();
+		utenteParziale.setCreditoResiduo(utenteInstance.getCreditoResiduo());
+		request.getSession().setAttribute("userInfo", utenteParziale);
 		return "acquisto/list";
 	}
 
