@@ -26,6 +26,8 @@ public class LoginController {
 		}
 		return "login";
 	}
+	
+	
 
 	private String getErrorMessage(HttpServletRequest request, String key) {
 
@@ -51,6 +53,10 @@ public class LoginController {
 		if (auth != null) {
 			new SecurityContextLogoutHandler().logout(request, response, auth);
 		}
+		if(model.getAttribute("successMessage") != null) {
+			model.addAttribute("successMessage", "You have been successfully logged out !!");
+		}
+		
 		model.addAttribute("infoMessage", "You have been successfully logged out !!");
 		return "login";
 	}

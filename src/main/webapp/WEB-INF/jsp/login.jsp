@@ -1,4 +1,6 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="it">
 	<head>
@@ -10,13 +12,13 @@
 	
 	
 		 <!-- Custom styles for login -->
-	    <link href="assets/css/signin.css" rel="stylesheet">
+	    <link href="${pageContext.request.contextPath}/assets/css/signin.css" rel="stylesheet">
 	</head>
 	
 	<body class="text-center">
 		<main class="form-signin">
-		 
-			<form class="form-signin" name='login' action="login" method='POST' novalidate="novalidate">
+	
+			<form class="form-signin" name='login' action="${pageContext.request.contextPath}/login" method='POST' novalidate="novalidate">
 	
 		   	     <div class="alert alert-success alert-dismissible fade show ${successMessage==null?'d-none':'' }" role="alert">
 					 ${successMessage}
@@ -31,7 +33,7 @@
 				</div>
 				
 				
-			  	<img class="mb-4 " src="./assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+			  	<img class="mb-4 " src="${pageContext.request.contextPath}/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
 				<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 		    	
 		    	
@@ -49,14 +51,15 @@
 			        <input type="checkbox" value="remember-me"> Remember me
 			      </label>
 			    </div>
-			    
-			 
-			
+			    <input type="hidden" name="idAnnuncioWithNoAuth" value="${idAnnuncioWithNoAuth }">
 			    <button class="w-100 btn btn-lg" style="background-color:GreenYellow" type="submit">Sign in</button>
+			  
+                
 			    <div>
 			    <div class="w-50 p-3" style="background-color: #;"></div>
 			   
 			  </div>
+			
 			      <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/home">Home</a>
 			      
 			      <div>

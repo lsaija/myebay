@@ -41,8 +41,17 @@
       <sec:authorize access="isAuthenticated()">
 	      <div class="col-md-3 text-end">
 	        <p class="navbar-text">Utente: <sec:authentication property="name"/> (${userInfo.nome } ${userInfo.cognome }, Credito: ${userInfo.creditoResiduo})
-	         
-	    	 <a href="${pageContext.request.contextPath}/logout">Logout</a></p>
+	        
+	        <sec:authorize access="isAuthenticated()">
+          <li class="nav-item dropdown text-primary" style="margin-top: -45px" >
+            <a class="nav-link dropdown-toggle text-light "  href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Account</a>
+            <ul class="dropdown-menu " style="margin-left: 210px" aria-labelledby="dropdown07">
+              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/logout">Logout</a></li>
+              <li><div class="dropdown-divider"></div><a class="dropdown-item" href="${pageContext.request.contextPath}account/cambioPassword">Cambia password</a></li>
+            </ul> 
+          </li>
+          </sec:authorize> 
+            </p>
 	      </div>
       </sec:authorize>
       

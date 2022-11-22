@@ -36,8 +36,7 @@ public class AnnuncioServiceImpl implements AnnuncioService {
 	@Override
 	@Transactional(readOnly = true)
 	public Annuncio caricaSingoloElemento(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findById(id).orElse(null);
 	}
 
 	@Override
@@ -71,16 +70,19 @@ public class AnnuncioServiceImpl implements AnnuncioService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Annuncio> findByExample(Annuncio example) {
 		return repository.findByExample(example);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Annuncio> findByExampleEager(Annuncio example) {
 		return repository.findByExampleEager(example);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Annuncio caricaSingoloElementoConCategorie(Long id) {
 		return repository.findByIdConCategorie(id).orElse(null);
 	}

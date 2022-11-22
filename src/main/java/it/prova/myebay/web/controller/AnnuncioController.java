@@ -1,5 +1,7 @@
 package it.prova.myebay.web.controller;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -129,7 +131,7 @@ public class AnnuncioController {
 			return "annuncio/insert";
 		}
 		UtenteDTO utenteInSessione = (UtenteDTO) request.getSession().getAttribute("userInfo");
-		annuncioDTO.setUtente(utenteInSessione);
+		annuncioDTO.setUtente(UtenteDTO.buildUtenteDTOFromModel(utenteService.caricaSingoloElemento(utenteInSessione.getId()), true));
 		annuncioService.inserisciNuovo(annuncioDTO.buildAnnuncioModel(true));
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
@@ -182,7 +184,7 @@ public class AnnuncioController {
 		return "redirect:/annuncio/listUtente";
 	}
 
-	@PostMapping("/acquista")
+	@PostMapping("/acquista{idAnnuncio}")
 	public String acquisto(@RequestParam Long idAnnuncioForAcquisto, Model model, RedirectAttributes redirectAttrs,
 			HttpServletRequest request) {
 
@@ -204,9 +206,24 @@ public class AnnuncioController {
 				acquistoService.findAllAcquistiEagerUtente(utenteInSessione.getId()), true));
 		Utente utenteInstance=utenteService.caricaSingoloElemento(utenteInSessione.getId());
 		UtenteDTO utenteParziale=new UtenteDTO();
+		utenteParziale.setId(utenteInstance.getId());
 		utenteParziale.setCreditoResiduo(utenteInstance.getCreditoResiduo());
+		utenteParziale.setNome(utenteInstance.getNome());
+		utenteParziale.setCognome(utenteInstance.getCognome());
 		request.getSession().setAttribute("userInfo", utenteParziale);
+	
 		return "acquisto/list";
+	}
+	
+	@GetMapping("/acquistaWithoutAuth")
+	public String acquistaWithoutAuth(@RequestParam(required = true) Long idAnnuncioWithNoAuth,
+			Model model, RedirectAttributes redirectAttrs,HttpServletRequest request, Principal principal) {
+		System.out.println("maledetto   "+idAnnuncioWithNoAuth);
+		if (principal != null) {
+			return this.acquisto(idAnnuncioWithNoAuth, model, redirectAttrs, request);
+		}
+		model.addAttribute("idAnnuncioWithNoAuth", idAnnuncioWithNoAuth);
+		return "/login";
 	}
 
 }

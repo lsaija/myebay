@@ -33,9 +33,9 @@ public class SecSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/assets/**").permitAll().antMatchers("/", "/home", "/annuncio/**", "/utente/registrazione", "/utente/executeRegistrazione")
+		http.authorizeRequests().antMatchers("/assets/**").permitAll().antMatchers("/", "/home", "/annuncio/**", "/utente/registrazione", "/utente/executeRegistrazione","/annuncio/acquistaWithoutAuth")
 				.permitAll().antMatchers("/login").permitAll().antMatchers("/utente/**").hasRole("ADMIN")
-				.antMatchers("/**").hasAnyRole("ADMIN", "CLASSIC_USER")
+				.antMatchers("/**").hasAnyRole("ADMIN", "CLASSIC_USER").antMatchers("/account/**").hasAnyRole("ADMIN", "CLASSIC_USER")
 				// .antMatchers("/anonymous*").anonymous()
 				.anyRequest().authenticated().and().exceptionHandling().accessDeniedPage("/accessDenied").and()
 				.formLogin().loginPage("/login")

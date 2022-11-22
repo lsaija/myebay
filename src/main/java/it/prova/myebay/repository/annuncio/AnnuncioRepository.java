@@ -12,4 +12,7 @@ public interface AnnuncioRepository extends CrudRepository<Annuncio, Long>, Cust
 
 	@Query("from Annuncio a left join fetch a.categorie where a.id = ?1")
 	Optional<Annuncio> findByIdConCategorie(Long id);
+	
+	/*@Query("from Annuncio a where a.id = ?1")
+	Optional<Annuncio> findById(Long id);*/
 }

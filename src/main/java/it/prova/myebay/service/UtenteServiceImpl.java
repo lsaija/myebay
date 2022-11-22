@@ -4,10 +4,13 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.prova.myebay.dto.UtenteChangePassDTO;
+import it.prova.myebay.dto.UtenteDTO;
 import it.prova.myebay.model.StatoUtente;
 import it.prova.myebay.model.Utente;
 import it.prova.myebay.repository.utente.UtenteRepository;
@@ -20,6 +23,9 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Value("${utente.password.reset.value}") 
+	private String defaultPassword;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -111,5 +117,24 @@ public class UtenteServiceImpl implements UtenteService {
 	public Utente findByUsername(String username) {
 		return repository.findByUsername(username).orElse(null);
 	}
+
+
+	@Override
+	@Transactional
+	public void cambiaPassword(String nuovaPassword, String username) {
+		Utente utente = repository.findByUsername(username).orElse(null);
+		utente.setPassword(passwordEncoder.encode(nuovaPassword));
+		repository.save(utente);
+	}
+
+	@Override
+	public void resetPass(Long idUtente) {
+		Utente utente = repository.findById(idUtente).orElse(null);
+		utente.setPassword(passwordEncoder.encode(defaultPassword));
+		repository.save(utente);
+		
+	}
+
+	
 
 }
